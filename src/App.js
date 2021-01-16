@@ -36,7 +36,7 @@ function App() {
     setCurrDragged(null)
 
     // check win condition - correct order - set win styles
-    if (checkWin(wordList, winOrder)) setWinStyles('win')
+    checkWin(wordList, winOrder) ? setWinStyles('win') : setWinStyles('')
   }
 
   return (
