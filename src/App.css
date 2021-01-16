@@ -24,3 +24,8 @@
 #dragging {
   background-color: red;
 }
+
+#win {
+  background-color: green;
+  border-radius: 2rem;
+}
