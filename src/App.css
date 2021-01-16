@@ -43,3 +43,11 @@
   padding: 2rem;
   border-radius: 5%;
 }
+
+.word-item:hover {
+  background-color: rgba(255, 255, 255, 0.274);
+}
+
+#dragging {
+  background-color: red;
+}
