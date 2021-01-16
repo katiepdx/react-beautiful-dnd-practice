@@ -13,6 +13,9 @@ function App() {
     // details: draggableId, source index and droppableId, destination index, and droppableId
     console.log(locationDetails)
 
+    // check if card dragged is outside of droppable area - no destination
+    if (!locationDetails.destination) return
+
     reorderList(wordList, locationDetails)
 
     // update wordList in state
@@ -47,6 +50,8 @@ function App() {
                   )
                 })}
 
+                {/* add a placeholder for when items are dragged - from provided */}
+                {provided.placeholder}
               </div>
             )}
           </Droppable>
