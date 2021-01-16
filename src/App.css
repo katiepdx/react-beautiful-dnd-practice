@@ -1,7 +1,3 @@
-.App {
-  text-align: center;
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -13,15 +9,12 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
 .word-item {
   border: 2px solid white;
   margin: 2rem;
   padding: 2rem;
   border-radius: 5%;
+  text-align: center;
 }
 
 .word-item:hover {

@@ -7,6 +7,14 @@ import { reorderList } from './dragDropUtils';
 
 function App() {
   const [wordList, setWordList] = useState(draggableList)
+  const [currDragged, setCurrDragged] = useState()
+
+  const handleOnDragStart = (locationDetails) => {
+    // when user clicks to drag item, update styles
+
+    // set curr dragged to state - compare index in card item
+    setCurrDragged(locationDetails.source.index)
+  }
 
   // fires when card is dropped
   const handleOnDragEnd = (locationDetails) => {
@@ -14,12 +22,16 @@ function App() {
     console.log(locationDetails)
 
     // check if card dragged is outside of droppable area - no destination
-    if (!locationDetails.destination) return
+    // resets currDrag so styles are not applied
+    if (!locationDetails.destination) return setCurrDragged(null)
 
     reorderList(wordList, locationDetails)
 
     // update wordList in state
     setWordList(wordList)
+
+    // reset currDragged item to null
+    setCurrDragged(null)
   }
 
   return (
@@ -27,7 +39,7 @@ function App() {
       <header className="App-header">
 
         {/* Wrap app in DragDropContext & Pass onDragEnd prop - handleOnDragEnd func fires updating word list order in state */}
-        <DragDropContext onDragEnd={handleOnDragEnd}>
+        <DragDropContext onDragEnd={handleOnDragEnd} onDragStart={handleOnDragStart}>
 
           {/* add droppable area  */}
           <Droppable droppableId="words">
@@ -42,8 +54,8 @@ function App() {
                       {/* must pass provided */}
                       {(provided) => (
                         // 3 provided props needed
-                        <div className="word-item" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          Word: {word.word}
+                        <div className="word-item" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} id={i === currDragged ? 'dragging' : 'not-dragging'}>
+                          {word.word}
                         </div>
                       )}
                     </Draggable>
