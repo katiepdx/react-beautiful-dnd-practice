@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.word-item {
+  border: 2px solid white;
+  margin: 2rem;
+  padding: 2rem;
+  border-radius: 5%;
+}
