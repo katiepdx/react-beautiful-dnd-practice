@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import WordList from './components/WordList';
 import { draggableList, winListOrder } from './data/mock-data';
 import { checkWin, reorderList } from './utils/dragDropUtils';
@@ -42,6 +42,7 @@ function App() {
                 {provided.placeholder}
               </div>
             )}
+
           </Droppable>
         </DragDropContext>
       </header>

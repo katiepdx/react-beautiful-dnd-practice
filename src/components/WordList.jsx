@@ -2,10 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import WordItem from './WordItem'
 
-const WordList = ({ wordList }) => (
+const WordList = ({ wordList, currDragged }) => (
   wordList.map((word, index) => {
     return (
-      <WordItem word={word} index={index} key={index} />
+      <WordItem
+        word={word}
+        index={index}
+        key={index}
+        currDragged={currDragged} />
     )
   })
 )
