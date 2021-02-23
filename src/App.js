@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import WordList from './components/WordList';
 import { draggableList, nounsList, winListOrder } from './data/mock-data';
@@ -6,27 +6,29 @@ import { checkWin, reorderList } from './utils/dragDropUtils';
 import './App.css';
 
 function App() {
-  const [wordList, setWordList] = useState(draggableList)
-  const [nounList, setNounsList] = useState(nounsList)
-  const [currDragged, setCurrDragged] = useState()
-  const [winOrder, setWinOrder] = useState(winListOrder)
-  const [winStyles, setWinStyles] = useState()
+  const [wordList, setWordList] = useState(draggableList);
+  const [nounList, setNounsList] = useState(nounsList);
+  const [currDragged, setCurrDragged] = useState();
+  const [winOrder, setWinOrder] = useState(winListOrder);
+  const [winStyles, setWinStyles] = useState();
 
-  const handleOnDragStart = (locationDetails) => setCurrDragged(locationDetails.source.index)
-  const handleOnDragEnd = (locationDetails, ...rest) => {
-    console.log(locationDetails, 'LocationDetails')
-    console.log(rest, 'rest params')
-    if (!locationDetails.destination) return setCurrDragged(null)
+  // set currDragged index
+  const handleOnDragStart = (locationDetails) => setCurrDragged(locationDetails.source.index);
+  const handleOnDragEnd = (locationDetails) => {
+    // snap back if destination is out of bands
+    if (!locationDetails.destination) return setCurrDragged(null);
 
-    const [destinationList, sourceList] = reorderList(wordList, nounList, locationDetails)
-    console.log(destinationList, sourceList, 'hgi')
-    setNounsList(sourceList)
-    setWordList(destinationList)
-    setCurrDragged(null)
-    console.log(sourceList)
+    // reorderList takes in 3 props
+    // get two lists from reorderList return
+    const [destinationList, sourceList] = reorderList(wordList, nounList, locationDetails);
 
-    checkWin(wordList, winOrder) ? setWinStyles('win') : setWinStyles('')
-  }
+    const setDestination = locationDetails.destination.droppableId === 'words' ? setWordList : setNounsList;
+    const setSource = locationDetails.source.droppableId === 'words' ? setWordList : setNounsList;
+
+    setDestination(destinationList);
+    setSource(sourceList);
+    setCurrDragged(null);
+  };
 
   return (
     <div className="App">

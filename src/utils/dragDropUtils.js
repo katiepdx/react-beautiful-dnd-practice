@@ -1,29 +1,35 @@
 export const reorderList = (wordList, nounList, locationDetails) => {
   const sourceList = locationDetails.source.droppableId === 'words' ? wordList.slice() : nounList.slice();
   const destinationList = locationDetails.destination.droppableId === 'words' ? wordList.slice() : nounList.slice();
-  const sameList = locationDetails.destination.droppableId === locationDetails.source.draggableId;
-  console.log(locationDetails, 'details')
-  console.log(locationDetails.source.draggableId, locationDetails.destination.draggableId)
-  const [draggedItem] = sourceList.splice(locationDetails.source.index, 1)
+  const sameList = locationDetails.destination.droppableId === locationDetails.source.droppableId;
 
-  destinationList.splice(locationDetails.destination.index, 0, draggedItem)
-  return [destinationList, sourceList]
+  const [draggedItem] = sourceList.slice(locationDetails.source.index, locationDetails.source.index + 1);
 
-  // if (sameList) {
-  //   const newOrder = destinationList.splice(locationDetails.destination.index, 0, draggedItem)
-  //   console.log(locationDetails.destination.index)
-  //   return newOrder
-  // } else {
-  //   const newDestinationOrder = destinationList.splice(locationDetails.destination.index, 0, draggedItem)
-  // }
+  // if dnd is in the same list
+  if (sameList) {
+    const sourceCopy = sourceList.slice();
+    // remove dragged using source index from sourceCopy
+    sourceCopy.splice(locationDetails.source.index, 1)
+    // insert dragged item into sourceCopy
+    sourceCopy.splice(locationDetails.destination.index, 0, draggedItem);
 
+    console.log(destinationList, sourceCopy);
 
-}
+    // return two lists 
+    return [destinationList, sourceCopy];
+  }
+
+  // if dnd is NOT the same list
+  destinationList.splice(locationDetails.destination.index, 0, draggedItem);
+
+  // return two lists
+  return [destinationList, sourceList];
+};
 
 export const checkWin = (wordList, winListOrder) => {
   const winCondition = wordList.map((item, index) => {
-    return item.id === winListOrder[index].id
-  })
+    return item.id === winListOrder[index].id;
+  });
 
-  return winCondition.includes(false) ? false : true
-}
+  return winCondition.includes(false) ? false : true;
+};
