@@ -14,6 +14,7 @@ function App() {
 
   // set currDragged index
   const handleOnDragStart = (locationDetails) => setCurrDragged(locationDetails.source.index);
+
   const handleOnDragEnd = (locationDetails) => {
     // snap back if destination is out of bands
     if (!locationDetails.destination) return setCurrDragged(null);
@@ -22,8 +23,15 @@ function App() {
     // get two lists from reorderList return
     const [destinationList, sourceList] = reorderList(wordList, nounList, locationDetails);
 
-    const setDestination = locationDetails.destination.droppableId === 'words' ? setWordList : setNounsList;
-    const setSource = locationDetails.source.droppableId === 'words' ? setWordList : setNounsList;
+    const setDestination =
+      locationDetails.destination.droppableId === 'words'
+        ? setWordList
+        : setNounsList;
+
+    const setSource =
+      locationDetails.source.droppableId === 'words'
+        ? setWordList
+        : setNounsList;
 
     setDestination(destinationList);
     setSource(sourceList);

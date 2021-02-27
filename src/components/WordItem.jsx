@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Draggable } from 'react-beautiful-dnd'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Draggable } from 'react-beautiful-dnd';
 
 const WordItem = ({ word, index, currDragged }) => {
   return (
@@ -12,8 +12,8 @@ const WordItem = ({ word, index, currDragged }) => {
         </div>
       )}
     </Draggable>
-  )
-}
+  );
+};
 
 WordItem.propTypes = {
   word: PropTypes.objectOf(PropTypes.shape({
@@ -21,6 +21,6 @@ WordItem.propTypes = {
     word: PropTypes.string.isRequired
   })),
   index: PropTypes.number.isRequired,
-}
+};
 
-export default WordItem
+export default WordItem;
