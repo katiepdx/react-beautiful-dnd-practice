@@ -46,7 +46,7 @@ export const reorderList = (wordList, nounList, locationDetails) => {
 
 export const checkDrinksWin = (wordList, drinksWinOrder) => {
   const winArray = wordList.map((item, index) => {
-    return item.id === drinksWinOrder[index].id;
+    return item.id === drinksWinOrder[index]?.id;
   });
 
   // allow for index 3 word to be any noun
