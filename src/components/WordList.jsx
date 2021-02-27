@@ -2,19 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import WordItem from './WordItem'
 
-const WordsList = ({ wordsList }) => {
-  return wordsList.map((word, i) => (
-    <div key={i}>
-      <WordItem {...word} />
-    </div>
-  )
-  )
-}
+const WordList = ({ wordList, currDragged }) => (
+  wordList.map((word, index) => {
+    return (
+      <WordItem
+        word={word}
+        index={index}
+        key={index}
+        currDragged={currDragged} />
+    )
+  })
+)
 
-WordsList.propTypes = {
-  wordsList: PropTypes.arrayOf(PropTypes.shape({
+WordList.propTypes = {
+  wordList: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
     word: PropTypes.string.isRequired
   }))
 }
 
-export default WordsList
+export default WordList

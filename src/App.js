@@ -1,73 +1,76 @@
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import React, { useState, useEffect } from 'react';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import WordList from './components/WordList';
+import { draggableList, nounsList, drinksWinOrder } from './data/mock-data';
+import { checkDrinksWin, reorderList } from './utils/dragDropUtils';
 import './App.css';
-// import WordsList from './components/WordList';
-import { draggableList, winListOrder } from './data/mock-data';
-import React, { useState } from 'react'
-import { checkWin, reorderList } from './dragDropUtils';
 
 function App() {
-  const [wordList, setWordList] = useState(draggableList)
-  const [currDragged, setCurrDragged] = useState()
-  const [winOrder, setWinOrder] = useState(winListOrder)
-  const [winStyles, setWinStyles] = useState()
+  const [wordList, setWordList] = useState(draggableList);
+  const [nounList, setNounsList] = useState(nounsList);
+  const [currDragged, setCurrDragged] = useState();
+  const [winStyles, setWinStyles] = useState();
 
-  const handleOnDragStart = (locationDetails) => {
-    // when user clicks to drag item, update styles
+  // set currDragged index
+  const handleOnDragStart = (locationDetails) => setCurrDragged(locationDetails.source.index);
 
-    // set curr dragged to state - compare index in card item
-    setCurrDragged(locationDetails.source.index)
-  }
+  // check win condition whenever wordList updates
+  useEffect(() => {
+    // check win condition 
+    checkDrinksWin(wordList, drinksWinOrder)
+      ? setWinStyles('win')
+      : setWinStyles('no-win');
+  }, [wordList]);
 
-  // fires when card is dropped
   const handleOnDragEnd = (locationDetails) => {
-    // details: draggableId, source index and droppableId, destination index, and droppableId
-    console.log(locationDetails)
+    // snap back if destination is out of bands
+    if (!locationDetails.destination) return setCurrDragged(null);
 
-    // check if card dragged is outside of droppable area - no destination
-    // resets currDrag so styles are not applied
-    if (!locationDetails.destination) return setCurrDragged(null)
+    // reorderList takes in 3 props
+    // get two lists from reorderList return
+    const [destinationList, sourceList] = reorderList(wordList, nounList, locationDetails);
 
-    reorderList(wordList, locationDetails)
+    const setDestination =
+      locationDetails.destination.droppableId === 'words'
+        ? setWordList
+        : setNounsList;
 
-    // update wordList in state
-    setWordList(wordList)
+    const setSource =
+      locationDetails.source.droppableId === 'words'
+        ? setWordList
+        : setNounsList;
 
-    // reset currDragged item to null
-    setCurrDragged(null)
-
-    // check win condition - correct order - set win styles
-    if (checkWin(wordList, winOrder)) setWinStyles('win')
-  }
+    setDestination(destinationList);
+    setSource(sourceList);
+    setCurrDragged(null);
+  };
 
   return (
     <div className="App">
       <header className="App-header">
 
-        {/* Wrap app in DragDropContext & Pass onDragEnd prop - handleOnDragEnd func fires updating word list order in state */}
         <DragDropContext onDragEnd={handleOnDragEnd} onDragStart={handleOnDragStart}>
 
-          {/* add droppable area  */}
+          {/* TSS - I really like (something) */}
           <Droppable droppableId="words">
-            {/* must pass provided - incl. info and ref info needed for lib (droppableProps and innerRef for positioning) */}
             {(provided) => (
-              <div className="words" {...provided.droppableProps} ref={provided.innerRef} id={winStyles === 'win' ? 'win' : 'no-win'}>
+              <div
+                className="words" {...provided.droppableProps} ref={provided.innerRef} id={winStyles === 'win' ? 'win' : 'no-win'}>
 
-                {wordList.map((word, i) => {
-                  return (
-                    // wrap each item in array in Draggable
-                    <Draggable draggableId={word.id} index={i} key={word.id}>
-                      {/* must pass provided */}
-                      {(provided) => (
-                        // 3 provided props needed
-                        <div className="word-item" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} id={i === currDragged ? 'dragging' : 'not-dragging'}>
-                          {word.word}
-                        </div>
-                      )}
-                    </Draggable>
-                  )
-                })}
+                <WordList wordList={wordList} currDragged={currDragged} />
 
-                {/* add a placeholder for when items are dragged - from provided */}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+
+          {/* VOCAB - coffee, tea, etc. */}
+          <Droppable droppableId="nouns">
+            {(provided) => (
+              <div className="nouns" {...provided.droppableProps} ref={provided.innerRef} >
+
+                <WordList wordList={nounList} currDragged={currDragged} />
+
                 {provided.placeholder}
               </div>
             )}
