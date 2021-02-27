@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import WordList from './components/WordList';
-import { draggableList, nounsList, drinksWinOrder } from './data/mock-data';
+import { tssList, nounsList, drinksWinOrder } from './data/mock-data';
 import { checkDrinksWin, reorderList } from './utils/dragDropUtils';
 import './App.css';
 
 function App() {
-  const [wordList, setWordList] = useState(draggableList);
-  const [nounList, setNounsList] = useState(nounsList);
+  const [wordList, setWordList] = useState(tssList.words);
+  const [nounList, setNounsList] = useState(nounsList.words);
   const [currDragged, setCurrDragged] = useState();
   const [winStyles, setWinStyles] = useState();
 
@@ -57,6 +57,8 @@ function App() {
               <div
                 className="words" {...provided.droppableProps} ref={provided.innerRef} id={winStyles === 'win' ? 'win' : 'no-win'}>
 
+                <h1>{tssList.title}</h1>
+
                 <WordList wordList={wordList} currDragged={currDragged} />
 
                 {provided.placeholder}
@@ -68,6 +70,8 @@ function App() {
           <Droppable droppableId="nouns">
             {(provided) => (
               <div className="nouns" {...provided.droppableProps} ref={provided.innerRef} >
+
+                <h1>{nounsList.title}</h1>
 
                 <WordList wordList={nounList} currDragged={currDragged} />
 
