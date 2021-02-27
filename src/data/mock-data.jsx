@@ -14,7 +14,7 @@ export const nounsList = [
   { id: 'decaf coffee', word: 'decaf coffee' }
 ]
 
-export const winListOrder = [
+export const drinksWinOrder = [
   { id: 'hi', word: 'Hi,' },
   { id: 'i', word: 'I' },
   { id: 'like', word: 'like' },

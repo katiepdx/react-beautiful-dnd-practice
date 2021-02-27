@@ -44,10 +44,24 @@ export const reorderList = (wordList, nounList, locationDetails) => {
   return [destinationList, sourceList];
 };
 
-export const checkWin = (wordList, winListOrder) => {
-  const winCondition = wordList.map((item, index) => {
-    return item.id === winListOrder[index].id;
+export const checkDrinksWin = (wordList, drinksWinOrder) => {
+  const winArray = wordList.map((item, index) => {
+    return item.id === drinksWinOrder[index].id;
   });
 
-  return winCondition.includes(false) ? false : true;
+  // allow for index 3 word to be any noun
+  winArray.splice(3, 1, true);
+  // check win condition 1 - all are true in win array
+  const conditionOne =
+    winArray.includes(false)
+      ? false
+      : true;
+
+  // check win condition 2 - length and conditionOne both must be true
+  const conditionTwo =
+    winArray.length === 5 && conditionOne
+      ? true
+      : false;
+
+  return conditionTwo;
 };

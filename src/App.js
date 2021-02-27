@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import WordList from './components/WordList';
-import { draggableList, nounsList, winListOrder } from './data/mock-data';
-import { checkWin, reorderList } from './utils/dragDropUtils';
+import { draggableList, nounsList, drinksWinOrder } from './data/mock-data';
+import { checkDrinksWin, reorderList } from './utils/dragDropUtils';
 import './App.css';
 
 function App() {
   const [wordList, setWordList] = useState(draggableList);
   const [nounList, setNounsList] = useState(nounsList);
   const [currDragged, setCurrDragged] = useState();
-  const [winOrder, setWinOrder] = useState(winListOrder);
   const [winStyles, setWinStyles] = useState();
 
   // set currDragged index
   const handleOnDragStart = (locationDetails) => setCurrDragged(locationDetails.source.index);
+
+  // check win condition whenever wordList updates
+  useEffect(() => {
+    // check win condition 
+    checkDrinksWin(wordList, drinksWinOrder)
+      ? setWinStyles('win')
+      : setWinStyles('no-win');
+  }, [wordList]);
 
   const handleOnDragEnd = (locationDetails) => {
     // snap back if destination is out of bands
