@@ -1,12 +1,18 @@
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+ 
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.words, .nouns {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 h1 {
   font-size: 2rem;

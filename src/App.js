@@ -52,7 +52,7 @@ function App() {
         <DragDropContext onDragEnd={handleOnDragEnd} onDragStart={handleOnDragStart}>
 
           {/* TSS - I really like (something) */}
-          <Droppable droppableId="words">
+          <Droppable droppableId="words" direction="horizontal">
             {(provided) => (
               <div
                 className="words" {...provided.droppableProps} ref={provided.innerRef} id={winStyles === 'win' ? 'win' : 'no-win'}>
@@ -67,7 +67,7 @@ function App() {
           </Droppable>
 
           {/* VOCAB - coffee, tea, etc. */}
-          <Droppable droppableId="nouns">
+          <Droppable droppableId="nouns" direction="horizontal">
             {(provided) => (
               <div className="nouns" {...provided.droppableProps} ref={provided.innerRef} >
 
